@@ -1,5 +1,5 @@
 import {getCourseNumber, getCourseTerm, hasConflict, timeParts } from '../utilities/times.js'
-import {setData} from '../utilities/firebase.js'
+import {setData, useUserState} from '../utilities/firebase.js'
 
 const toggle = (x, lst) => (
     lst.includes(x) ? lst.filter(y => y !== x): [x, ...lst]
@@ -26,7 +26,8 @@ const reschedule = async (course, meets) => {
   //Build Course View
   const Course = ({ course, selected, setSelected }) => {
     const isSelected = selected.includes(course);
-    const isDisabled = !isSelected && hasConflict(course, selected)
+    const isDisabled = !isSelected && hasConflict(course, selected);
+    const [user] = useUserState();
     const style = {
       backgroundColor: isDisabled? 'lightgrey': isSelected ? 'lightgreen' : 'white'
     };
